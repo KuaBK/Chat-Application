@@ -7,6 +7,13 @@ spring:
         driverClassName: "com.mysql.cj.jdbc.Driver"
         username: ${DATABASE_USERNAME}
         password: ${DATABASE_PASSWORD}
+    data:
+        mongodb:
+            username: cua
+            password: cua
+            host: 27017
+            database: chat_app
+            authentication-database: admin
     jpa:
         hibernate:
             ddl-auto: update
