@@ -47,7 +47,7 @@ public class AccountService {
         }
 
         Account validAccount = Account.builder()
-                .role(Role.EMPLOYEE)
+                .role(Role.USER)
                 .email(accountRequest.getEmail())
                 .build();
         validAccount.setPassword(passwordEncoder.encode(accountRequest.getPassword()));
