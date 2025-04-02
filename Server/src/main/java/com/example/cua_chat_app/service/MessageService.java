@@ -1,7 +1,7 @@
 package com.example.cua_chat_app.service;
 
-import com.example.cua_chat_app.entity.message.Message;
-import com.example.cua_chat_app.repository.MessageRespository;
+import com.example.cua_chat_app.entity.mongo.Message;
+import com.example.cua_chat_app.repository.mongo.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,23 +11,20 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MessageService {
-    private final MessageRespository messageRespository;
+    private final MessageRepository repository;
     private final ChatRoomService chatRoomService;
 
-
-    public Message save(Message message) {
-        var chatRoomName = chatRoomService.getChatRoomName(
-                message.getSenderId(),
-                message.getReceiverId(),
-                true
-        ).orElseThrow();
-        message.setChatRoomName(chatRoomName);
-        messageRespository.save(message);
-        return message;
+    public Message save(Message chatMessage) {
+        var chatId = chatRoomService
+                .getChatRoomId(chatMessage.getSenderId(), chatMessage.getRecipientId(), true)
+                .orElseThrow();
+        chatMessage.setChatId(chatId);
+        repository.save(chatMessage);
+        return chatMessage;
     }
 
-    public List<Message> findAllMessage(String senderId, String receiverId) {
-        var chatRoomName = chatRoomService.getChatRoomName(senderId, receiverId, false);
-        return chatRoomName.map(messageRespository::findByChatRoomName).orElse(new ArrayList<>());
+    public List<Message> findChatMessages(String senderId, String recipientId) {
+        var chatId = chatRoomService.getChatRoomId(senderId, recipientId, false);
+        return chatId.map(repository::findByChatId).orElse(new ArrayList<>());
     }
 }
