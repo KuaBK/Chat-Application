@@ -40,4 +40,9 @@ public class UserController {
     public ResponseEntity<List<User>> findConnectedUsers() {
         return ResponseEntity.ok(userService.findConnectedUsers());
     }
+
+    @GetMapping("/users/offline")
+    public ResponseEntity<List<User>> findUnConnectedUsers() {
+        return ResponseEntity.ok(userService.findConnectedUsers());
+    }
 }

@@ -30,4 +30,7 @@ public class UserService {
     public List<User> findConnectedUsers() {
         return repository.findAllByStatus(Status.ONLINE);
     }
+    public List<User> findUnConnectedUsers()  {
+        return repository.findAllByStatus(Status.OFFLINE);
+    }
 }
