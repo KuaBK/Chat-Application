@@ -45,15 +45,18 @@ function onConnected() {
 }
 
 async function findAndDisplayConnectedUsers() {
-    const connectedUsersResponse = await fetch('/users');
-    let connectedUsers = await connectedUsersResponse.json();
-    connectedUsers = connectedUsers.filter(user => user.nickName !== nickname);
+    const usersResponse = await fetch('/users/all');
+
+    let users = await usersResponse.json();
+
+    users = users.filter(user => user.nickName !== nickname && user.fullName !== fullname);
+
     const connectedUsersList = document.getElementById('connectedUsers');
     connectedUsersList.innerHTML = '';
 
-    connectedUsers.forEach(user => {
+    users.forEach(user => {
         appendUserElement(user, connectedUsersList);
-        if (connectedUsers.indexOf(user) < connectedUsers.length - 1) {
+        if (users.indexOf(user) < users.length - 1) {
             const separator = document.createElement('li');
             separator.classList.add('separator');
             connectedUsersList.appendChild(separator);
@@ -77,14 +80,20 @@ function appendUserElement(user, connectedUsersList) {
     receivedMsgs.textContent = '0';
     receivedMsgs.classList.add('nbr-msg', 'hidden');
 
+    const statusSpan = document.createElement('span');
+    statusSpan.textContent = user.status === 'ONLINE' ? '🟢' : '⚪';
+    statusSpan.classList.add('user-status');
+
     listItem.appendChild(userImage);
     listItem.appendChild(usernameSpan);
+    listItem.appendChild(statusSpan);
     listItem.appendChild(receivedMsgs);
 
     listItem.addEventListener('click', userItemClick);
 
     connectedUsersList.appendChild(listItem);
 }
+
 
 function userItemClick(event) {
     document.querySelectorAll('.user-item').forEach(item => {
@@ -101,7 +110,6 @@ function userItemClick(event) {
     const nbrMsg = clickedUser.querySelector('.nbr-msg');
     nbrMsg.classList.add('hidden');
     nbrMsg.textContent = '0';
-
 }
 
 function displayMessage(senderId, content) {
@@ -188,3 +196,5 @@ usernameForm.addEventListener('submit', connect, true);
 messageForm.addEventListener('submit', sendMessage, true);
 logout.addEventListener('click', onLogout, true);
 window.onbeforeunload = () => onLogout();
+
+

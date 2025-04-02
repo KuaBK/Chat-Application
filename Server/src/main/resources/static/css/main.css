@@ -29,6 +29,7 @@ body {
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    height: 100vh;
 }
 
 .main-content{
@@ -215,9 +216,11 @@ body {
     display: none;
 }
 
-.logout{
-    padding-top: 10px;
+.logout-container {
+    margin-top: 30px;
+    text-align: center;
 }
+
 
 a.logout{
     display: inline-block;

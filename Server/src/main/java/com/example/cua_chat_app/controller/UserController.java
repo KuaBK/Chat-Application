@@ -41,8 +41,8 @@ public class UserController {
         return ResponseEntity.ok(userService.findConnectedUsers());
     }
 
-    @GetMapping("/users/offline")
-    public ResponseEntity<List<User>> findUnConnectedUsers() {
-        return ResponseEntity.ok(userService.findConnectedUsers());
+    @GetMapping("/users/all")
+    public ResponseEntity<List<User>> findAllUsers() {
+        return ResponseEntity.ok(userService.findAllUsers());
     }
 }

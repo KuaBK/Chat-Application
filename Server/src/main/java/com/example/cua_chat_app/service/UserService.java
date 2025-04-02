@@ -33,4 +33,8 @@ public class UserService {
     public List<User> findUnConnectedUsers()  {
         return repository.findAllByStatus(Status.OFFLINE);
     }
+
+    public List<User> findAllUsers() {
+        return repository.findAll();
+    }
 }
