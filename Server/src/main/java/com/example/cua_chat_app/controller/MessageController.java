@@ -1,7 +1,7 @@
 package com.example.cua_chat_app.controller;
 
-import com.example.cua_chat_app.entity.mongo.Message;
-import com.example.cua_chat_app.entity.mongo.Notification;
+import com.example.cua_chat_app.entity.Message;
+import com.example.cua_chat_app.entity.Notification;
 import com.example.cua_chat_app.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

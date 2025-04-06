@@ -1,8 +1,8 @@
 package com.example.cua_chat_app.service;
 
-import com.example.cua_chat_app.entity.mongo.Status;
-import com.example.cua_chat_app.entity.mongo.User;
-import com.example.cua_chat_app.repository.mongo.UserRepository;
+import com.example.cua_chat_app.entity.Status;
+import com.example.cua_chat_app.entity.User;
+import com.example.cua_chat_app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -6,5 +6,23 @@ spring:
             port: 27017
             database: chat_app
             authentication-database: admin
+            uri: mongodb://cua:cua@localhost:27017/cua_chat_app?authSource=admin
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: tuanphonglqd@gmail.com
+        password: frtf trrl tzkl cqbj
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+                        required: true
 server:
     port: 8088
+
+jwt:
+    signerKey:  1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij
+    valid-duration: 36000 #seconds
+    refreshable-duration: 36000 #seconds
