@@ -1,6 +1,6 @@
-package com.example.cua_chat_app.repository.mongo;
+package com.example.cua_chat_app.repository;
 
-import com.example.cua_chat_app.entity.mongo.Message;
+import com.example.cua_chat_app.entity.Message;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

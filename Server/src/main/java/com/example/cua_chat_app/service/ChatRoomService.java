@@ -1,7 +1,7 @@
 package com.example.cua_chat_app.service;
 
-import com.example.cua_chat_app.entity.mongo.ChatRoom;
-import com.example.cua_chat_app.repository.mongo.ChatRoomRepository;
+import com.example.cua_chat_app.entity.ChatRoom;
+import com.example.cua_chat_app.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

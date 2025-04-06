@@ -8,36 +8,66 @@
 </head>
 <body>
 
-<div class="user-form" id="username-page">
-    <h2>Enter Chatroom</h2>
-    <form id="usernameForm">
-        <label for="nickname">Nickname:</label>
-        <input type="text" id="nickname" name="nickname" required>
+<div class="login-form" id="login-page">
+    <h2>Login</h2>
+    <form id="loginForm">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
 
-        <label for="fullname">Real Name:</label>
-        <input type="text" id="fullname" name="realname" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
 
-        <button type="submit">Enter Chatroom</button>
+        <button type="submit">Login</button>
     </form>
+    <p>Don't have an account? <a href="#" id="showRegister">Register</a></p>
+</div>
+
+<div class="register-form hidden" id="register-page">
+    <h2>Register</h2>
+    <form id="registerForm">
+        <label for="reg-nickname">Nickname:</label>
+        <input type="text" id="reg-nickname" required>
+
+        <label for="reg-fullname">Full Name:</label>
+        <input type="text" id="reg-fullname" required>
+
+        <label for="reg-email">Email:</label>
+        <input type="email" id="reg-email" required>
+
+        <label for="reg-password">Password:</label>
+        <input type="password" id="reg-password" required>
+
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
 </div>
 
 
 <div class="chat-container hidden" id="chat-page">
-    <div class="profile">
-        <p>Username: </p>
-        <p id="connected-user-fullname"></p>
-    </div>
-
-    <div class="main-content">
     <div class="users-list">
+        <div class="profile">
+
+            <button id="profile-btn">
+                <img src="../img/user_icon.png" alt="you">
+                <p>&nbsp</p>
+                <p id="connected-user-fullname"></p>
+            </button>
+
+            <div class="profile-menu hidden" id="profile-menu">
+                <a href="javascript:void(0)" id="view-profile">Profile</a>
+                <a href="javascript:void(0)" id="logout">Logout</a>
+            </div>
+
+        </div>
+
         <div class="users-list-container">
-            <h2>Online Users</h2>
-            <ul id="connectedUsers">
-            </ul>
+            <h2>Your Friends</h2>
+            <ul id="connectedUsers"></ul>
         </div>
     </div>
 
     <div class="chat-area">
+
         <div class="chat-area" id="chat-messages">
         </div>
 
@@ -48,12 +78,8 @@
             </div>
         </form>
     </div>
-    </div>
-
-    <div style="margin-top: 30px; text-align: center;">
-        <a class="logout" href="javascript:void(0)" id="logout">Logout</a>
-    </div>
 </div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>

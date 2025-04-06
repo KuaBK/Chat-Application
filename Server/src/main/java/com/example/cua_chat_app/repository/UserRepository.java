@@ -1,11 +1,14 @@
-package com.example.cua_chat_app.repository.mongo;
+package com.example.cua_chat_app.repository;
 
-import com.example.cua_chat_app.entity.mongo.Status;
-import com.example.cua_chat_app.entity.mongo.User;
+import com.example.cua_chat_app.entity.Status;
+import com.example.cua_chat_app.entity.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends MongoRepository<User, String> {
     List<User> findAllByStatus(Status status);
+
+    Optional<User> findByEmail(String email);
 }

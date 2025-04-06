@@ -1,6 +1,6 @@
 package com.example.cua_chat_app.controller;
 
-import com.example.cua_chat_app.entity.mongo.User;
+import com.example.cua_chat_app.entity.User;
 import com.example.cua_chat_app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

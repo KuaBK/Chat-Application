@@ -8,11 +8,118 @@ const messageInput = document.querySelector('#message');
 const connectingElement = document.querySelector('.connecting');
 const chatArea = document.querySelector('#chat-messages');
 const logout = document.querySelector('#logout');
+const profileBtn = document.getElementById('profile-btn');
+const profileMenu = document.getElementById('profile-menu');
+const viewProfile = document.getElementById('view-profile');
+const logoutBtn = document.getElementById('logout');
+const registerPage = document.querySelector('#register-page');
+const registerForm = document.querySelector('#registerForm');
+const showRegister = document.querySelector('#showRegister');
+const showLogin = document.querySelector('#showLogin');
 
 let stompClient = null;
 let nickname = null;
 let fullname = null;
 let selectedUserId = null;
+
+const loginPage = document.querySelector('#login-page');
+const loginForm = document.querySelector('#loginForm');
+
+let token = null; // Store JWT token globally
+
+showRegister.addEventListener('click', () => {
+    loginPage.classList.add('hidden');
+    registerPage.classList.remove('hidden');
+});
+
+registerForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const nickname = document.querySelector('#reg-nickname').value;
+    const fullName = document.querySelector('#reg-fullname').value;
+    const email = document.querySelector('#reg-email').value;
+    const password = document.querySelector('#reg-password').value;
+
+    const response = await fetch('/account/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            fullName: fullName,
+            email: email,
+            password: password
+        })
+    });
+
+    if (response.ok) {
+        alert("Register successful! Please login.");
+        registerPage.classList.add('hidden');
+        loginPage.classList.remove('hidden');
+    } else {
+        const err = await response.json();
+        alert("Register failed: " + (err.message || "Unknown error"));
+    }
+});
+
+showLogin.addEventListener('click', () => {
+    registerPage.classList.add('hidden');
+    loginPage.classList.remove('hidden');
+});
+
+loginForm.addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const email = document.querySelector('#email').value;
+    const password = document.querySelector('#password').value;
+
+    try {
+        const response = await fetch('/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            alert(error.message || 'Login failed');
+            return;
+        }
+
+        const data = await response.json();
+        const token = data.result.token;
+
+        // Giải mã payload từ token JWT
+        const payloadBase64 = token.split('.')[1];
+        const payload = JSON.parse(atob(payloadBase64));
+        const emailFromToken = payload.sub;
+
+        // Gọi API để lấy user info
+        const userInfoRes = await fetch(`/account/${emailFromToken}`);
+
+        if (!userInfoRes.ok) {
+            alert('Failed to fetch user info');
+            return;
+        }
+
+        const userInfo = await userInfoRes.json();
+        nickname = userInfo.nickName;
+        fullname = userInfo.fullName;
+
+        // Giấu trang login và trực tiếp vào trang chat
+        loginPage.classList.add('hidden');
+        chatPage.classList.remove('hidden');
+
+        // Kết nối WebSocket và tiếp tục như bình thường
+        const socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, onConnected, onError);
+
+    } catch (err) {
+        console.error(err);
+        alert('An error occurred during login');
+    }
+});
+
+
 
 function connect(event) {
     nickname = document.querySelector('#nickname').value.trim();
@@ -45,7 +152,9 @@ function onConnected() {
 }
 
 async function findAndDisplayConnectedUsers() {
-    const usersResponse = await fetch('/users/all');
+    const usersResponse = await fetch('/users/all', {
+        headers: { Authorization: `Bearer ${token}` }
+    });
 
     let users = await usersResponse.json();
 
@@ -106,6 +215,8 @@ function userItemClick(event) {
 
     selectedUserId = clickedUser.getAttribute('id');
     fetchAndDisplayUserChat().then();
+
+    clickedUser.classList.remove('new-message');
 
     const nbrMsg = clickedUser.querySelector('.nbr-msg');
     nbrMsg.classList.add('hidden');
@@ -181,6 +292,11 @@ async function onMessageReceived(payload) {
         const nbrMsg = notifiedUser.querySelector('.nbr-msg');
         nbrMsg.classList.remove('hidden');
         nbrMsg.textContent = '';
+
+        let currentCount = parseInt(nbrMsg.textContent) || 0;
+        nbrMsg.textContent = (currentCount + 1).toString();
+
+        notifiedUser.classList.add('new-message');
     }
 }
 
@@ -191,6 +307,26 @@ function onLogout() {
     );
     window.location.reload();
 }
+
+profileBtn.addEventListener('click', (event) => {
+    profileMenu.classList.toggle('hidden');
+    event.stopPropagation();  // Ngăn chặn sự kiện lan ra ngoài
+});
+
+document.addEventListener('click', (event) => {
+    if (!profileMenu.contains(event.target) && event.target !== profileBtn) {
+        profileMenu.classList.add('hidden');
+    }
+});
+
+viewProfile.addEventListener('click', () => {
+    alert("Xem thông tin cá nhân!");
+    profileMenu.classList.add('hidden');
+});
+
+logoutBtn.addEventListener('click', () => {
+    onLogout();  // Gọi hàm logout có sẵn
+});
 
 usernameForm.addEventListener('submit', connect, true);
 messageForm.addEventListener('submit', sendMessage, true);
