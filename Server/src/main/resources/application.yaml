@@ -1,28 +1,32 @@
 spring:
-    data:
-        mongodb:
-            username: cua
-            password: cua
-            port: 27017
-            database: chat_app
-            authentication-database: admin
-            uri: mongodb://cua:cua@localhost:27017/cua_chat_app?authSource=admin
-    mail:
-        host: smtp.gmail.com
-        port: 587
-        username: tuanphonglqd@gmail.com
-        password: frtf trrl tzkl cqbj
-        properties:
-            mail:
-                smtp:
-                    auth: true
-                    starttls:
-                        enable: true
-                        required: true
-server:
-    port: 8088
+  datasource:
+    url: jdbc:postgresql://localhost:5432/whatsapp_clone
+    username: username
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/whatsapp-clone
+  servlet:
+    multipart:
+      max-file-size: 50MB
 
-jwt:
-    signerKey:  1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij
-    valid-duration: 36000 #seconds
-    refreshable-duration: 36000 #seconds
+springdoc:
+  default-produces-media-type: application/json
+
+application:
+  file:
+    uploads:
+      media-output-path: ./uploads
