@@ -1,6 +1,6 @@
 package com.example.cua_chat_app.entity.chat;
 
-import com.example.cua_chat_app.constant.ChatConstants;
+import com.example.cua_chat_app.constant.ChatRoomConstants;
 import com.example.cua_chat_app.entity.BaseAuditingEntity;
 import com.example.cua_chat_app.entity.message.Message;
 import com.example.cua_chat_app.entity.message.MessageState;
@@ -32,14 +32,14 @@ import static jakarta.persistence.GenerationType.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "chat")
-@NamedQuery(name = ChatConstants.FIND_CHAT_BY_SENDER_ID,
-        query = "SELECT DISTINCT c FROM Chat c WHERE c.sender.id = :senderId OR c.recipient.id = :senderId ORDER BY createdDate DESC"
+@Table(name = "chatRoom")
+@NamedQuery(name = ChatRoomConstants.FIND_CHAT_BY_SENDER_ID,
+        query = "SELECT DISTINCT c FROM ChatRoom c WHERE c.sender.id = :senderId OR c.recipient.id = :senderId ORDER BY createdDate DESC"
 )
-@NamedQuery(name = ChatConstants.FIND_CHAT_BY_SENDER_ID_AND_RECEIVER,
-        query = "SELECT DISTINCT c FROM Chat c WHERE (c.sender.id = :senderId AND c.recipient.id = :recipientId) OR (c.sender.id = :recipientId AND c.recipient.id = :senderId) ORDER BY createdDate DESC"
+@NamedQuery(name = ChatRoomConstants.FIND_CHAT_BY_SENDER_ID_AND_RECEIVER,
+        query = "SELECT DISTINCT c FROM ChatRoom c WHERE (c.sender.id = :senderId AND c.recipient.id = :recipientId) OR (c.sender.id = :recipientId AND c.recipient.id = :senderId) ORDER BY createdDate DESC"
 )
-public class Chat extends BaseAuditingEntity {
+public class ChatRoom extends BaseAuditingEntity {
     @Id
     @GeneratedValue(strategy = UUID)
     private String id;
@@ -49,7 +49,7 @@ public class Chat extends BaseAuditingEntity {
     @ManyToOne
     @JoinColumn(name = "recipient_id")
     private User recipient;
-    @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "chatRoom", fetch = FetchType.EAGER)
     @OrderBy("createdDate DESC")
     private List<Message> messages;
 

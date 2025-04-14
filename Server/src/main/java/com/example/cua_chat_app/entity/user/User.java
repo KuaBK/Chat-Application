@@ -2,7 +2,7 @@ package com.example.cua_chat_app.entity.user;
 
 import com.example.cua_chat_app.constant.UserConstants;
 import com.example.cua_chat_app.entity.BaseAuditingEntity;
-import com.example.cua_chat_app.entity.chat.Chat;
+import com.example.cua_chat_app.entity.chat.ChatRoom;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
@@ -42,10 +42,10 @@ public class User extends BaseAuditingEntity {
     private LocalDateTime lastSeen;
 
     @OneToMany(mappedBy = "sender")
-    private List<Chat> chatsAsSender;
+    private List<ChatRoom> chatsAsSender;
 
     @OneToMany(mappedBy = "recipient")
-    private List<Chat> chatsAsRecipient;
+    private List<ChatRoom> chatsAsRecipient;
 
     @Transient
     public boolean isUserOnline() {
