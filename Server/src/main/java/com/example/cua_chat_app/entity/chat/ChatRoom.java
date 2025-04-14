@@ -33,10 +33,10 @@ import static jakarta.persistence.GenerationType.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "chatRoom")
-@NamedQuery(name = ChatRoomConstants.FIND_CHAT_BY_SENDER_ID,
+@NamedQuery(name = ChatRoomConstants.FIND_CHATROOM_BY_SENDER_ID,
         query = "SELECT DISTINCT c FROM ChatRoom c WHERE c.sender.id = :senderId OR c.recipient.id = :senderId ORDER BY createdDate DESC"
 )
-@NamedQuery(name = ChatRoomConstants.FIND_CHAT_BY_SENDER_ID_AND_RECEIVER,
+@NamedQuery(name = ChatRoomConstants.FIND_CHATROOM_BY_SENDER_ID_AND_RECEIVER,
         query = "SELECT DISTINCT c FROM ChatRoom c WHERE (c.sender.id = :senderId AND c.recipient.id = :recipientId) OR (c.sender.id = :recipientId AND c.recipient.id = :senderId) ORDER BY createdDate DESC"
 )
 public class ChatRoom extends BaseAuditingEntity {
@@ -86,7 +86,7 @@ public class ChatRoom extends BaseAuditingEntity {
             }
             return messages.get(0).getContent();
         }
-        return null; // No messages available
+        return null;
     }
 
     @Transient

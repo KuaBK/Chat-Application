@@ -42,10 +42,10 @@ public class User extends BaseAuditingEntity {
     private LocalDateTime lastSeen;
 
     @OneToMany(mappedBy = "sender")
-    private List<ChatRoom> chatsAsSender;
+    private List<ChatRoom> chatRoomsAsSender;
 
     @OneToMany(mappedBy = "recipient")
-    private List<ChatRoom> chatsAsRecipient;
+    private List<ChatRoom> chatRoomsAsRecipient;
 
     @Transient
     public boolean isUserOnline() {

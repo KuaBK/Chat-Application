@@ -2,6 +2,7 @@ package com.example.cua_chat_app.helper;
 
 import com.example.cua_chat_app.entity.user.User;
 import com.example.cua_chat_app.mapper.UserMapper;
+import com.example.cua_chat_app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -36,6 +37,5 @@ public class UserSynchronizer {
             return Optional.of(attributes.get("email").toString());
         }
         return Optional.empty();
-
     }
 }
