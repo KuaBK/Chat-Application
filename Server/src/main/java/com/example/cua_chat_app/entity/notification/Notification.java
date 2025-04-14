@@ -14,7 +14,7 @@ import lombok.Setter;
 @Builder
 public class Notification {
 
-    private String chatId;
+    private String chatRoomId;
     private String content;
     private String senderId;
     private String receiverId;
