@@ -54,7 +54,7 @@ public class ChatRoom extends BaseAuditingEntity {
     private List<Message> messages;
 
     @Transient
-    public String getChatName(String senderId) {
+    public String getChatRoomName(String senderId) {
         if (recipient.getId().equals(senderId)) {
             return sender.getFirstName() + " " + sender.getLastName();
         }

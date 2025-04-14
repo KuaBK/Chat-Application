@@ -2,6 +2,7 @@ package com.example.cua_chat_app.mapper;
 
 import com.example.cua_chat_app.dto.response.MessageResponse;
 import com.example.cua_chat_app.entity.message.Message;
+import com.example.cua_chat_app.helper.FileUtils;
 import org.springframework.stereotype.Service;
 
 @Service

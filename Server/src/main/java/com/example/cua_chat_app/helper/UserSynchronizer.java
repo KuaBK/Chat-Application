@@ -1,6 +1,7 @@
 package com.example.cua_chat_app.helper;
 
 import com.example.cua_chat_app.entity.user.User;
+import com.example.cua_chat_app.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.jwt.Jwt;
