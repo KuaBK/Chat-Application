@@ -247,7 +247,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
           senderId: notification.senderId,
           receiverId: notification.receiverId,
           lastMessage: notification.content,
-          name: notification.chatName,
+          name: notification.chatRoomName,
           unreadCount: 1,
           lastMessageTime: new Date().toString()
         };

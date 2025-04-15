@@ -6,6 +6,7 @@
     } @else {
       <i class="fas fa-times-circle cursor-pointer" (click)="searchNewContact = false"></i>
     }
+
   </div>
   <div class="d-flex flex-column gap-1 p-2">
     <div class="input-group">
@@ -22,7 +23,6 @@
   </div>
 
 </div>
-
 <div class="chat-list mt-3">
   @if (chats().length && !searchNewContact) {
     @for (chat of chats(); track chat) {

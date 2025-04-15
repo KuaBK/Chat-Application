@@ -5,6 +5,6 @@ export interface Notification {
     receiverId?: string;
     messageType?: 'TEXT' | 'IMAGE' | 'VIDEO' | 'AUDIO';
     type?: 'SEEN' | 'MESSAGE' | 'IMAGE' | 'VIDEO' | 'AUDIO';
-    chatName?: string;
+    chatRoomName?: string;
     media?: Array<string>;
   }
