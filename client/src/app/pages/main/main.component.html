@@ -42,7 +42,7 @@
                   <div class="message-box self">
                     <div class="d-flex flex-column">
                       @if (message.type === 'TEXT') {
-                        <span>{{ message.content }}</span>
+                        <span style="color: white;">{{ message.content }}</span>
                       } @else if (message.media) {
                         <img width="200" class="cursor-pointer" [src]="'data:image/jpg;base64,' + message.media" alt="">
                       }

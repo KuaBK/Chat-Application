@@ -22,7 +22,6 @@ export class ChatListComponent {
   contacts: Array<UserResponse> = [];
   chatSelected = output<ChatRoomResponse>();
   showUnread = false;
-  searchContacts: Array<UserResponse> = [];
 
   constructor(
     private chatService: ChatService,
@@ -35,32 +34,23 @@ export class ChatListComponent {
     this.showUnread = !this.showUnread;
   }
 
-  getFilteredChats(): ChatRoomResponse[] {
-    if (this.showUnread) {
-      return this.chats().filter(chat => chat.unreadCount && chat.unreadCount > 0);
-    }
-    return this.chats();
-  }
 
   searchTerm: string = '';
-  // searchContact() {
-  //   this.userService.getAllUsers()
-  //     .subscribe({
-  //       next: (users) => {
-  //         // Lọc danh sách người dùng để loại bỏ những người đã có phòng chat
-  //         const existingUserIds = this.chats().map(chat =>
-  //           chat.senderId === this.keycloakService.userId ? chat.receiverId : chat.senderId
-  //         );
-  //         const filteredUsers = users.filter(user => !existingUserIds.includes(user.id)); 
+
+  getFilteredChats(): ChatRoomResponse[] {
+    const searchTermLower = this.searchTerm.toLowerCase(); 
   
-  //         // Lọc theo tên dựa trên searchTerm
-  //         this.contacts = filteredUsers.filter(user =>
-  //           (user.firstName + ' ' + user.lastName).toLowerCase().includes(this.searchTerm.toLowerCase()) 
-  //         );
-  //         this.searchNewContact = true;
-  //       }
-  //     });
-  // }
+    if (this.showUnread) {
+      return this.chats().filter(chat =>
+        chat.unreadCount && chat.unreadCount > 0 &&
+        chat.name?.toLowerCase().includes(searchTermLower)
+      );
+    }
+  
+    return this.chats().filter(chat =>
+      chat.name?.toLowerCase().includes(searchTermLower) // Lọc theo tên phòng chat
+    );
+  }
 
   searchContact() {
     this.userService.getAllUsers()
@@ -87,8 +77,7 @@ export class ChatListComponent {
           );
   
           // Kết hợp cả hai danh sách
-          this.contacts = [...filteredNonFriends];
-          this.searchContacts = [...filteredFriends,...filteredNonFriends];
+          this.contacts = [...filteredNonFriends]; // CHANGED
           this.searchNewContact = true;
         }
       });

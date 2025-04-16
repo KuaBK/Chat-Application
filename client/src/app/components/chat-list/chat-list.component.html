@@ -10,16 +10,29 @@
   </div>
   <div class="d-flex flex-column gap-1 p-2" style="background: linear-gradient(to bottom,#A5CAD2,#b5bac7);">
     <div class="InputContainer">
+      @if (searchNewContact) {
       <input
-        placeholder="Search your friends"
+        placeholder="Find more friends"
         id="input"
         class="input"
         name="text"
         type="text"
         [(ngModel)]="searchTerm" 
-        (input)="searchContact()" 
+        (input)="searchContact()"
       >
+    } @else {
+      <input
+      placeholder="Search your friends"
+      id="input"
+      class="input"
+      name="text"
+      type="text"
+      [(ngModel)]="searchTerm" 
+      (input)="getFilteredChats()"
+      >
+    }
     </div>
+    
     <div class="radio-inputs">
       <label class="radio">
         <input type="radio" name="radio" [checked]="!showUnread" (click)="showUnread = false">
@@ -36,7 +49,7 @@
 <div class="chat-list mt-3">
   @if (getFilteredChats().length && !searchNewContact) { <!-- CHANGED -->
     @for (chat of getFilteredChats(); track chat) { <!-- CHANGED -->
-      <div class="d-flex align-items-center justify-content-between border-bottom-gray p-2"
+      <div class="d-flex align-items-center justify-content-between p-2" style=""
       (click)="chatClicked(chat)"
       >
         <div class="d-flex gap-2">
@@ -44,7 +57,7 @@
             <img src="user.png" alt="">
           </div>
           <div class="d-flex flex-column">
-            <span>{{ chat.name }}</span>
+            <span style="font-weight: bold;">{{ chat.name }}</span>
             <small class="text-secondary">
               @if (chat.lastMessage === 'Attachment') {
                 <i class="fas fa-image"></i>
@@ -63,14 +76,14 @@
     }
   } @else if (searchNewContact) {
     @for (contact of contacts; track contact) {
-      <div class="d-flex align-items-center justify-content-between border-bottom-gray p-2"
+      <div class="d-flex align-items-center justify-content-between p-2"
            (click)="selectContact(contact)">
         <div class="d-flex gap-2">
           <div class="user-img">
             <img src="user.png" alt="">
           </div>
           <div class="d-flex flex-column">
-            <span>{{ contact.firstName + ' ' + contact.lastName }}</span>
+            <span style="font-weight: bold;">{{ contact.firstName + ' ' + contact.lastName }}</span>
             @if (contact.online) {
               <small class="text-secondary">Online</small>
             } @else {
@@ -81,7 +94,5 @@
         </div>
       </div>
     }
-  } @else {
-    <span></span>
   }
 </div>
