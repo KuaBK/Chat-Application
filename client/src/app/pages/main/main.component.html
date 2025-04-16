@@ -1,7 +1,7 @@
 <div class="main">
   <div class="main-container d-flex">
     <div class="d-flex justify-content-between flex-column align-items-center p-3" style="background: linear-gradient(#A5CAD2,#FF7B89); width: 100px; border-right: 1px solid #7697A0;">
-        <i class="fa-solid fa-message" style="font-size: 2rem;"></i>
+      <i class="fa-solid fa-message cursor-pointer" style="font-size: 2rem;" (click)="resetToDefaultView()"></i>
         <i class="fa-solid fa-user cursor-pointer" style="font-size: 2rem;" (click)="userProfile()"></i>
         <i class="fa-solid fa-door-open cursor-pointer" style="font-size: 2rem;" (click)="logout()"></i>
     </div>
@@ -14,15 +14,15 @@
       </div>
       @if (selectedChat.id) {
         <div class="col-9" style="border-left: 1px solid #7697A0;">
-          <div class="d-flex flex-column justify-content-between h-100">
-            <div class="gray-bg p-2">
-              <div class="d-flex gap-2">
+          <div class="d-flex flex-column justify-content-between h-100" >
+            <div class="p-2" style="background-color: #A5CAD2">
+              <div class="d-flex gap-2" style="background-color: #A5CAD2">
                 <div class="user-img">
                   <img src="user.png" alt="">
                 </div>
                 @if (selectedChat) {
                   <div class="d-flex flex-column">
-                    <span>{{ selectedChat.name }}</span>
+                    <span style="font-weight: bold;">{{ selectedChat.name }}</span>
                     <div class="d-flex gap-1 align-items-center">
                       @if (selectedChat.recipientOnline) {
                         <small class="online-status"></small>
@@ -42,9 +42,12 @@
                   <div class="message-box self">
                     <div class="d-flex flex-column">
                       @if (message.type === 'TEXT') {
-                        <span style="color: white;">{{ message.content }}</span>
+                        <span>{{ message.content }}</span>
                       } @else if (message.media) {
-                        <img width="200" class="cursor-pointer" [src]="'data:image/jpg;base64,' + message.media" alt="">
+                        <img width="200" class="cursor-pointer" 
+                        [src]="'data:image/jpg;base64,' + message.media" alt=""
+                        (click)="openImageModal('data:image/jpg;base64,' + message.media)"
+                        >
                       }
                       <small class="text-black-50">
                         {{ message.createdAt | date:'HH:mm' }}&nbsp;
@@ -67,7 +70,10 @@
                       @if (message.type === 'TEXT') {
                         <span>{{ message.content }}</span>
                       } @else if (message.media) {
-                        <img width="200" class="cursor-pointer" [src]="'data:image/jpg;base64,' + message.media" alt="">
+                        <img width="200" class="cursor-pointer" 
+                        [src]="'data:image/jpg;base64,' + message.media" alt=""
+                        (click)="openImageModal('data:image/jpg;base64,' + message.media)"
+                        >
                       }
                       <small class="text-black-50">{{ message.createdAt | date:'HH:mm' }}</small>
                     </div>
@@ -75,7 +81,7 @@
                 }
               }
             </div>
-            <div class="gray-bg p-2">
+            <div class="p-2"  style="background-color: #FF7B89">
               <div class="d-flex align-items-center gap-2">
                 <i class="fas fa-paperclip cursor-pointer"
                 (click)="inputFile.click()"></i>
@@ -120,5 +126,11 @@
         </div>
       }
     </div>
+  </div>
+</div>
+
+<div *ngIf="zoomedImage" class="image-modal" (click)="closeImageModal()">
+  <div class="image-modal-content">
+    <img [src]="zoomedImage" alt="Zoomed Image">
   </div>
 </div>

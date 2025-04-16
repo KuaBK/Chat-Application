@@ -49,7 +49,7 @@
 <div class="chat-list mt-3">
   @if (getFilteredChats().length && !searchNewContact) { <!-- CHANGED -->
     @for (chat of getFilteredChats(); track chat) { <!-- CHANGED -->
-      <div class="d-flex align-items-center justify-content-between p-2" style=""
+      <div class="d-flex align-items-center justify-content-between p-2"
       (click)="chatClicked(chat)"
       >
         <div class="d-flex gap-2">
@@ -60,9 +60,9 @@
             <span style="font-weight: bold;">{{ chat.name }}</span>
             <small class="text-secondary">
               @if (chat.lastMessage === 'Attachment') {
-                <i class="fas fa-image"></i>
+                <i class="fas fa-image">&nbsp;&nbsp;</i>
               }
-              {{ wrapMessage(chat.lastMessage) }}
+              <span style="color: black ">{{ wrapMessage(chat.lastMessage) }}</span>
             </small>
           </div>
         </div>

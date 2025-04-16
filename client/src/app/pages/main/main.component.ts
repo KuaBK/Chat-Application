@@ -13,13 +13,16 @@ import {Notification} from './models/notification';
 import {ChatService} from '../../services/services/chat.service';
 import {PickerComponent} from '@ctrl/ngx-emoji-mart';
 import {EmojiData} from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-main',
+  standalone: true,
   imports: [
     ChatListComponent,
     DatePipe,
     FormsModule,
+    CommonModule,
     PickerComponent
   ],
   templateUrl: './main.component.html',
@@ -33,6 +36,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
   socketClient: any = null;
   messageContent: string = '';
   showEmojis = false;
+  zoomedImage: string | null = null;
   @ViewChild('scrollableDiv') scrollableDiv!: ElementRef<HTMLDivElement>;
   private notificationSubscription: any;
 
@@ -41,6 +45,11 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
     private messageService: MessageService,
     private keycloakService: KeycloakService,
   ) {
+  }
+
+  resetToDefaultView() {
+    this.selectedChat = {}; 
+    this.chatMessages = []; 
   }
 
   ngAfterViewChecked(): void {
@@ -283,5 +292,13 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewChecked {
       return null;
     }
     return htmlInputTarget.files[0];
+  }
+
+  openImageModal(imageSrc: string) {
+    this.zoomedImage = imageSrc;
+  }
+
+  closeImageModal() {
+    this.zoomedImage = null;
   }
 }
