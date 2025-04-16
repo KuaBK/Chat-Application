@@ -3,12 +3,7 @@ package com.example.cua_chat_app.entity.user;
 import com.example.cua_chat_app.constant.UserConstants;
 import com.example.cua_chat_app.entity.BaseAuditingEntity;
 import com.example.cua_chat_app.entity.chat.ChatRoom;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,9 +31,14 @@ public class User extends BaseAuditingEntity {
 
     @Id
     private String id;
+
     private String firstName;
+
     private String lastName;
+
+    @Column(unique = true)
     private String email;
+
     private LocalDateTime lastSeen;
 
     @OneToMany(mappedBy = "sender")

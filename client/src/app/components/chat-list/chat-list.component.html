@@ -1,31 +1,41 @@
 <div class="sticky-top bg-white">
-  <div class="d-flex justify-content-between align-items-center gap-2 p-2">
-    <h4>Chat</h4>
+  <div class="d-flex justify-content-between align-items-center gap-2 p-2" style="background: linear-gradient(#A5CAD2);">
+    <h4 style="padding-left: 10px;">Find more friends in</h4>
     @if (!searchNewContact) {
-      <i class="fas fa-comment-medical cursor-pointer" (click)="searchContact()"></i>
+      <i class="fas fa-comment-medical cursor-pointer" style="font-size: 2rem; padding-bottom: 5px;" (click)="searchContact()"></i>
     } @else {
-      <i class="fas fa-times-circle cursor-pointer" (click)="searchNewContact = false"></i>
+      <i class="fas fa-times-circle cursor-pointer" style="font-size: 2rem; padding-bottom: 5px;" (click)="searchNewContact = false"></i>
     }
 
   </div>
-  <div class="d-flex flex-column gap-1 p-2">
-    <div class="input-group">
-          <span class="input-group-text">
-            <i class="fas fa-search"></i>
-          </span>
-      <input type="text" class="form-control-sm" placeholder="Search in the chat" aria-label="Search">
+  <div class="d-flex flex-column gap-1 p-2" style="background: linear-gradient(to bottom,#A5CAD2,#b5bac7);">
+    <div class="InputContainer">
+      <input
+        placeholder="Search your friends"
+        id="input"
+        class="input"
+        name="text"
+        type="text"
+        [(ngModel)]="searchTerm" 
+        (input)="searchContact()" 
+      >
     </div>
-    <div class="d-flex gap-2">
-      <span class="badge rounded-pill text-bg-light cursor-pointer">All</span>
-      <span class="badge rounded-pill text-bg-light cursor-pointer">Unread</span>
-      <span class="badge rounded-pill text-bg-light cursor-pointer">Favorites</span>
+    <div class="radio-inputs">
+      <label class="radio">
+        <input type="radio" name="radio" [checked]="!showUnread" (click)="showUnread = false">
+        <span class="name" [class.active]="!showUnread">ALL</span>
+      </label>
+      <label class="radio">
+        <input type="radio" name="radio" [checked]="showUnread" (click)="toggleUnread()">
+        <span class="name" [class.active]="showUnread">UNREAD</span>
+      </label>
     </div>
   </div>
 
 </div>
 <div class="chat-list mt-3">
-  @if (chats().length && !searchNewContact) {
-    @for (chat of chats(); track chat) {
+  @if (getFilteredChats().length && !searchNewContact) { <!-- CHANGED -->
+    @for (chat of getFilteredChats(); track chat) { <!-- CHANGED -->
       <div class="d-flex align-items-center justify-content-between border-bottom-gray p-2"
       (click)="chatClicked(chat)"
       >
@@ -64,7 +74,7 @@
             @if (contact.online) {
               <small class="text-secondary">Online</small>
             } @else {
-              <small class="text-secondary">Last seen&nbsp;{{ contact.lastSeen | date:'HH:mm dd/MM/yyyy' }}</small>
+              <small class="text-secondary">Last seen&nbsp;{{ contact.lastSeen | date:'HH:mm dd/MM/yyyy' }} </small>
             }
 
           </div>
@@ -72,7 +82,6 @@
       </div>
     }
   } @else {
-    <span>Not chat yet..</span>
+    <span></span>
   }
-
 </div>
