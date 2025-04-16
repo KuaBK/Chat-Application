@@ -1,32 +1,63 @@
 <div class="sticky-top bg-white">
-  <div class="d-flex justify-content-between align-items-center gap-2 p-2">
-    <h4>Chat</h4>
+  <div class="d-flex justify-content-between align-items-center gap-2 p-2" style="background: linear-gradient(#A5CAD2);">
+    <h4 style="padding-left: 10px;">Find more friends in</h4>
     @if (!searchNewContact) {
-      <i class="fas fa-comment-medical cursor-pointer" (click)="searchContact()"></i>
+      <div class="tooltip-container">
+        <i class="fas fa-comment-medical cursor-pointer" style="font-size: 2rem; padding-bottom: 5px;" (click)="searchContact()"></i>
+        <span class="tooltip-text">Find more friends</span>
+      </div>
+      <!-- <i class="fas fa-comment-medical cursor-pointer" style="font-size: 2rem; padding-bottom: 5px;" (click)="searchContact()"></i> -->
     } @else {
-      <i class="fas fa-times-circle cursor-pointer" (click)="searchNewContact = false"></i>
+      <div class="tooltip-container">
+        <i class="fas fa-times-circle cursor-pointer" style="font-size: 2rem; padding-bottom: 5px;" (click)="searchNewContact = false"></i>
+        <span class="tooltip-text">Back to friend-list</span>
+      </div>
+      <!-- <i class="fas fa-times-circle cursor-pointer" style="font-size: 2rem; padding-bottom: 5px;" (click)="searchNewContact = false"></i> -->
     }
 
   </div>
-  <div class="d-flex flex-column gap-1 p-2">
-    <div class="input-group">
-          <span class="input-group-text">
-            <i class="fas fa-search"></i>
-          </span>
-      <input type="text" class="form-control-sm" placeholder="Search in the chat" aria-label="Search">
+  <div class="d-flex flex-column gap-1 p-2" style="background: linear-gradient(to bottom,#A5CAD2,#b5bac7);">
+    <div class="InputContainer">
+      @if (searchNewContact) {
+      <input
+        placeholder="Find more friends"
+        id="input"
+        class="input"
+        name="text"
+        type="text"
+        [(ngModel)]="searchTerm" 
+        (input)="searchContact()"
+      >
+    } @else {
+      <input
+      placeholder="Search your friends"
+      id="input"
+      class="input"
+      name="text"
+      type="text"
+      [(ngModel)]="searchTerm" 
+      (input)="getFilteredChats()"
+      >
+    }
     </div>
-    <div class="d-flex gap-2">
-      <span class="badge rounded-pill text-bg-light cursor-pointer">All</span>
-      <span class="badge rounded-pill text-bg-light cursor-pointer">Unread</span>
-      <span class="badge rounded-pill text-bg-light cursor-pointer">Favorites</span>
+    
+    <div class="radio-inputs">
+      <label class="radio">
+        <input type="radio" name="radio" [checked]="!showUnread" (click)="showUnread = false">
+        <span class="name" [class.active]="!showUnread">ALL</span>
+      </label>
+      <label class="radio">
+        <input type="radio" name="radio" [checked]="showUnread" (click)="toggleUnread()">
+        <span class="name" [class.active]="showUnread">UNREAD</span>
+      </label>
     </div>
   </div>
 
 </div>
 <div class="chat-list mt-3">
-  @if (chats().length && !searchNewContact) {
-    @for (chat of chats(); track chat) {
-      <div class="d-flex align-items-center justify-content-between border-bottom-gray p-2"
+  @if (getFilteredChats().length && !searchNewContact) { <!-- CHANGED -->
+    @for (chat of getFilteredChats(); track chat) { <!-- CHANGED -->
+      <div class="d-flex align-items-center justify-content-between p-2"
       (click)="chatClicked(chat)"
       >
         <div class="d-flex gap-2">
@@ -34,12 +65,12 @@
             <img src="user.png" alt="">
           </div>
           <div class="d-flex flex-column">
-            <span>{{ chat.name }}</span>
+            <span style="font-weight: bold;">{{ chat.name }}</span>
             <small class="text-secondary">
               @if (chat.lastMessage === 'Attachment') {
-                <i class="fas fa-image"></i>
+                <i class="fas fa-image">&nbsp;&nbsp;</i>
               }
-              {{ wrapMessage(chat.lastMessage) }}
+              <span style="color: black ">{{ wrapMessage(chat.lastMessage) }}</span>
             </small>
           </div>
         </div>
@@ -53,26 +84,23 @@
     }
   } @else if (searchNewContact) {
     @for (contact of contacts; track contact) {
-      <div class="d-flex align-items-center justify-content-between border-bottom-gray p-2"
+      <div class="d-flex align-items-center justify-content-between p-2"
            (click)="selectContact(contact)">
         <div class="d-flex gap-2">
           <div class="user-img">
             <img src="user.png" alt="">
           </div>
           <div class="d-flex flex-column">
-            <span>{{ contact.firstName + ' ' + contact.lastName }}</span>
+            <span style="font-weight: bold;">{{ contact.firstName + ' ' + contact.lastName }}</span>
             @if (contact.online) {
               <small class="text-secondary">Online</small>
             } @else {
-              <small class="text-secondary">Last seen&nbsp;{{ contact.lastSeen | date:'HH:mm dd/MM/yyyy' }}</small>
+              <small class="text-secondary">Last seen&nbsp;{{ contact.lastSeen | date:'HH:mm dd/MM/yyyy' }} </small>
             }
 
           </div>
         </div>
       </div>
     }
-  } @else {
-    <span>Not chat yet..</span>
   }
-
 </div>
