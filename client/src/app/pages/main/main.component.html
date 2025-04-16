@@ -1,9 +1,20 @@
 <div class="main">
   <div class="main-container d-flex">
     <div class="d-flex justify-content-between flex-column align-items-center p-3" style="background: linear-gradient(#A5CAD2,#FF7B89); width: 100px; border-right: 1px solid #7697A0;">
-      <i class="fa-solid fa-message cursor-pointer" style="font-size: 2rem;" (click)="resetToDefaultView()"></i>
+      <div class="tooltip-container">
+        <i class="fa-solid fa-message cursor-pointer" style="font-size: 2rem;" (click)="resetToDefaultView()"></i>
+        <span class="tooltip-text">Go to Chat</span>
+      </div>
+      
+      <div class="tooltip-container">
         <i class="fa-solid fa-user cursor-pointer" style="font-size: 2rem;" (click)="userProfile()"></i>
+        <span class="tooltip-text">View profile</span>
+      </div>
+      
+      <div class="tooltip-container">
         <i class="fa-solid fa-door-open cursor-pointer" style="font-size: 2rem;" (click)="logout()"></i>
+        <span class="tooltip-text">Logout</span>
+      </div>
     </div>
     <div class="d-flex w-100">
       <div class="col-3 overflow-x-scroll">

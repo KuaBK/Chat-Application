@@ -2,9 +2,17 @@
   <div class="d-flex justify-content-between align-items-center gap-2 p-2" style="background: linear-gradient(#A5CAD2);">
     <h4 style="padding-left: 10px;">Find more friends in</h4>
     @if (!searchNewContact) {
-      <i class="fas fa-comment-medical cursor-pointer" style="font-size: 2rem; padding-bottom: 5px;" (click)="searchContact()"></i>
+      <div class="tooltip-container">
+        <i class="fas fa-comment-medical cursor-pointer" style="font-size: 2rem; padding-bottom: 5px;" (click)="searchContact()"></i>
+        <span class="tooltip-text">Find more friends</span>
+      </div>
+      <!-- <i class="fas fa-comment-medical cursor-pointer" style="font-size: 2rem; padding-bottom: 5px;" (click)="searchContact()"></i> -->
     } @else {
-      <i class="fas fa-times-circle cursor-pointer" style="font-size: 2rem; padding-bottom: 5px;" (click)="searchNewContact = false"></i>
+      <div class="tooltip-container">
+        <i class="fas fa-times-circle cursor-pointer" style="font-size: 2rem; padding-bottom: 5px;" (click)="searchNewContact = false"></i>
+        <span class="tooltip-text">Back to friend-list</span>
+      </div>
+      <!-- <i class="fas fa-times-circle cursor-pointer" style="font-size: 2rem; padding-bottom: 5px;" (click)="searchNewContact = false"></i> -->
     }
 
   </div>
